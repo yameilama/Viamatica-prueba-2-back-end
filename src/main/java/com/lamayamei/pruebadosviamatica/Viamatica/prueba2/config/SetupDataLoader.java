@@ -65,13 +65,44 @@ public class SetupDataLoader implements CommandLineRunner {
                 "admin",
                 "admin@gmail.com",
                 "admin",
-                rolAdministrador
+                rolAdministrador,
+                true
         );
         User gestorUser = dataLoaderService.createUserIfNotFound(
                 "yameilama",
                 "yamei@hotmail.com",
                 "yameilama",
-                rolGestor
+                rolGestor, true
+        );
+        User cajeroUserUno = dataLoaderService.createUserIfNotFound(
+                "cajerouno",
+                "cajerouno@gmail.com",
+                "cajerouno",
+                rolCajero, true
+        );
+        User cajeroUserDos = dataLoaderService.createUserIfNotFound(
+                "cajerodos",
+                "cajerodos@gmail.com",
+                "cajerodos",
+                rolCajero, true
+        );
+        User cajeroUserTres = dataLoaderService.createUserIfNotFound(
+                "cajerotres",
+                "cajerotres@gmail.com",
+                "cajerotres",
+                rolCajero, true
+        );
+        User cajeroUserCuatro = dataLoaderService.createUserIfNotFound(
+                "cajerocuatro",
+                "cajerocuatro@gmail.com",
+                "cajerocuatro",
+                rolCajero, true
+        );
+        User cajeroUserCinco = dataLoaderService.createUserIfNotFound(
+                "cajerocinco",
+                "cajerocinco@gmail.com",
+                "cajerocinco",
+                rolCajero, true
         );
 
         PaymentMethod paymentMethod = dataLoaderService.createPaymentMethodIfNotFound(
@@ -119,5 +150,22 @@ public class SetupDataLoader implements CommandLineRunner {
                 paymentMethod
 
         );
+
+        Caja cajaUno = dataLoaderService.createCajaIfNotFound(
+          "Caja 1",
+          "C01",
+          true
+        );
+        Caja cajaDos = dataLoaderService.createCajaIfNotFound(
+                "Caja 2",
+                "C02",
+                true
+        );
+        UserCaja userUnoCajaUno = dataLoaderService.createUserCajaIfNotFound(cajeroUserUno, cajaUno);
+        UserCaja userDosCajaUno = dataLoaderService.createUserCajaIfNotFound(cajeroUserDos, cajaUno);
+        UserCaja userUnoCajaDos = dataLoaderService.createUserCajaIfNotFound(cajeroUserTres, cajaDos);
+
+        UserCajaWorking userUnoWorkingCajaUno = dataLoaderService.createUserCajaWorkingIfNotFound(cajeroUserUno, cajaUno);
+
     }
 }

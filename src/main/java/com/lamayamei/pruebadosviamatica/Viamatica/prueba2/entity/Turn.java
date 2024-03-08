@@ -22,4 +22,8 @@ public class Turn {
     @ManyToOne
     @JoinColumn(name = "user_userId", referencedColumnName = "userId")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "client_clientId", referencedColumnName = "clientId")
+    private Client client;
 }

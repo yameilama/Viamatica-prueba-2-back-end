@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DataLoaderService {
@@ -24,6 +25,9 @@ public class DataLoaderService {
     private final StatusContractRepository statusContractRepository;
     private final AttentionTypeRepository attentionTypeRepository;
     private final AttentionStatusRepository attentionStatusRepository;
+    private final CajaRepository cajaRepository;
+    private final UserCajaRepository userCajaRepository;
+    private final UserCajaWorkingRepository userCajaWorkingRepository;
 
 
     @Autowired
@@ -34,7 +38,8 @@ public class DataLoaderService {
                              StatusContractRepository statusContractRepository,
                              PaymentMethodRepository paymentMethodRepository,
                              PasswordEncoder passwordEncoder, AttentionTypeRepository attentionTypeRepository,
-                             AttentionStatusRepository attentionStatusRepository
+                             AttentionStatusRepository attentionStatusRepository, CajaRepository cajaRepository,
+                             UserCajaRepository userCajaRepository, UserCajaWorkingRepository userCajaWorkingRepository
 
     ){
         this.rolRepository = rolRepository;
@@ -47,6 +52,9 @@ public class DataLoaderService {
         this.paymentMethodRepository = paymentMethodRepository;
         this.attentionTypeRepository = attentionTypeRepository;
         this.attentionStatusRepository = attentionStatusRepository;
+        this.cajaRepository = cajaRepository;
+        this.userCajaRepository = userCajaRepository;
+        this.userCajaWorkingRepository = userCajaWorkingRepository;
     }
 
 
@@ -82,13 +90,14 @@ public class DataLoaderService {
     }
 
     @Transactional
-    public User createUserIfNotFound(String username, String email, String password, Rol role){
+    public User createUserIfNotFound(String username, String email, String password, Rol role, boolean active){
         return userRepository.findByUsername(username).orElseGet(() -> {
             User newUser = new User();
             newUser.setUsername(username);
             newUser.setEmail(email);
             newUser.setPassword(passwordEncoder.encode(password));
             newUser.setRol(role);
+            newUser.setActive(true);
             return userRepository.save(newUser);
         });
     }
@@ -162,5 +171,42 @@ public class DataLoaderService {
             return existingContracts.get(0);
         }
     }
+
+    @Transactional
+    public Caja createCajaIfNotFound(String description, String code, boolean active){
+        return cajaRepository.findByCode(code).orElseGet(() -> {
+            Caja newCaja = new Caja();
+            newCaja.setCajaDescription(description);
+            newCaja.setCode(code);
+            newCaja.setActive(true);
+            return cajaRepository.save(newCaja);
+        });
+
+    }
+
+    @Transactional
+    public UserCaja createUserCajaIfNotFound(User user, Caja caja) {
+        Optional<UserCaja> existingAssociation = userCajaRepository.findByUserUserIdAndCajaCajaId(user.getUserId(), caja.getCajaId());
+
+        return existingAssociation.orElseGet(() -> {
+            UserCaja userCaja = new UserCaja();
+            userCaja.setUser(user);
+            userCaja.setCaja(caja);
+            return userCajaRepository.save(userCaja);
+        });
+    }
+
+    @Transactional
+    public UserCajaWorking createUserCajaWorkingIfNotFound(User user, Caja caja) {
+        Optional<UserCajaWorking> existingAssociation = userCajaWorkingRepository.findByUserUserIdAndCajaCajaId(user.getUserId(), caja.getCajaId());
+
+        return existingAssociation.orElseGet(() -> {
+            UserCajaWorking userCajaWorking = new UserCajaWorking();
+            userCajaWorking.setUser(user);
+            userCajaWorking.setCaja(caja);
+            return userCajaWorkingRepository.save(userCajaWorking);
+        });
+    }
+
 
 }

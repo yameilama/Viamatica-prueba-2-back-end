@@ -6,10 +6,9 @@ import com.lamayamei.pruebadosviamatica.Viamatica.prueba2.entity.AttentionType;
 import com.lamayamei.pruebadosviamatica.Viamatica.prueba2.service.AttentionService;
 import com.lamayamei.pruebadosviamatica.Viamatica.prueba2.service.AttentionTypeService;
 import com.lamayamei.pruebadosviamatica.Viamatica.prueba2.service.ClientService;
+import com.lamayamei.pruebadosviamatica.Viamatica.prueba2.utility.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +35,12 @@ public class AttentionController {
         return ResponseEntity.ok(types);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Attention>> getAll(){
+        List<Attention> attentionList = attentionService.findAll();
+        return ResponseEntity.ok(attentionList);
+    }
+
     @GetMapping("/{code}")
     public ResponseEntity<AttentionType> getAttentionTypeByCode(@PathVariable String code) {
         return attentionTypeService.findByCode(code)
@@ -46,10 +51,7 @@ public class AttentionController {
 
     @PostMapping("/generate")
     public ResponseEntity<Attention> generateAttention(@RequestBody AttentionDTO attention){
-        System.out.println("Received DTO: " + attention);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        System.out.println("username in AttentionController " + username);
+        String username = SecurityUtils.getCurrentUsername();
         Long clientId = clientService.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"))
                 .getClientId();
@@ -60,8 +62,7 @@ public class AttentionController {
 
     @GetMapping("/my-attention")
     public ResponseEntity<List<Attention>> getMyAttention() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        String username = SecurityUtils.getCurrentUsername();
         Long clientId = clientService.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"))
                 .getClientId();

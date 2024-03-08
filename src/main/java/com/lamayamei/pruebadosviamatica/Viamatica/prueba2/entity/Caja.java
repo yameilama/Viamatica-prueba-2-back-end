@@ -14,5 +14,8 @@ public class Caja {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cajaId;
     private String cajaDescription;
+    private String code;
     private boolean active = true;
+    private int maxUsersAssigned = 5;
+    private int maxUsersWorking = 3;
 }

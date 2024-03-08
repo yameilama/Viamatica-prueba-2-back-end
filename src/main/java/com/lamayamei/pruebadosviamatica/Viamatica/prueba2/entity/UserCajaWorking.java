@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class UserCaja {
+public class UserCajaWorking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,6 +17,4 @@ public class UserCaja {
     @ManyToOne
     @JoinColumn(name = "caja_cajaId", referencedColumnName = "cajaId")
     private Caja caja;
-
-
 }

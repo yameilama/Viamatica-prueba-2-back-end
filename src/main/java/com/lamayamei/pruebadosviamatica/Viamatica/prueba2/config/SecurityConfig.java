@@ -40,7 +40,12 @@ public class SecurityConfig {
                                 .requestMatchers("/api/login","/api/register","/api/client/contracts",
                                         "/api/attention-type","/api/attention-type/generate",
                                         "/api/attention-type/my-attention","/api/dashboard/users",
-                                        "/api/rol/all","/api/user/add").permitAll()
+                                        "/api/rol/all","/api/user/add", "/api/caja/all",
+                                        "/api/user/caja","/api/user/caja/all","/api/user/caja/add",
+                                        "/api/caja/users-working/all","/api/user/caja/{cajaId}",
+                                        "/api/caja/users-working/{cajaId}","/api/attention-type/all",
+                                        "/api/caja/update","/api/turno/assign-caja","/api/turno/all"
+                                        ).permitAll()
                               // .requestMatchers(HttpMethod.POST, "/api/attention-type/generate").permitAll()
                                 .anyRequest().authenticated()
                 )

@@ -1,6 +1,5 @@
 package com.lamayamei.pruebadosviamatica.Viamatica.prueba2.controller;
 
-import com.lamayamei.pruebadosviamatica.Viamatica.prueba2.DTO.RegisterDTO;
 import com.lamayamei.pruebadosviamatica.Viamatica.prueba2.DTO.UserDTO;
 import com.lamayamei.pruebadosviamatica.Viamatica.prueba2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

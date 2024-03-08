@@ -18,6 +18,7 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private boolean active = true;
 
 
     @Column(name = "date_created")

@@ -2,6 +2,7 @@ package com.lamayamei.pruebadosviamatica.Viamatica.prueba2.controller;
 
 import com.lamayamei.pruebadosviamatica.Viamatica.prueba2.entity.Contract;
 import com.lamayamei.pruebadosviamatica.Viamatica.prueba2.service.ContractService;
+import com.lamayamei.pruebadosviamatica.Viamatica.prueba2.utility.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,10 +27,7 @@ public class ClientController {
 
     @GetMapping("/contracts")
     public List<Contract> getContractsForLoggedInUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        System.out.println("username logged in: " + username);
-
+        String username = SecurityUtils.getCurrentUsername();
         return contractService.findContractByClientUsername(username);
     }
 

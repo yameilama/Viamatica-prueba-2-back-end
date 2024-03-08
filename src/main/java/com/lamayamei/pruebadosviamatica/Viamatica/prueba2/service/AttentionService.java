@@ -7,4 +7,6 @@ import java.util.List;
 public interface AttentionService {
     Attention createAttention(Long clientId, Long attentionTypeId);
     List<Attention> getAttentionsForClient(Long clientId);
+
+    List<Attention> findAll();
 }
